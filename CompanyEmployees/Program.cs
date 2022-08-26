@@ -21,6 +21,11 @@ builder.Services.AddSingleton<Database>();
 
 builder.Services.ConfigureFluentMigrator(builder.Configuration);
 
+builder.Services.ConfigureRepositoryManager();
+
+builder.Services.ConfigureServiceManager();
+
+
 var app = builder.Build();
 
 var logger = app.Services.GetRequiredService<ILoggerManager>();
