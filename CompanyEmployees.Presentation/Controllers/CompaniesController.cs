@@ -15,4 +15,19 @@ public class CompaniesController : ControllerBase
 		var companies = await _service.CompanyService.GetAllCompanies();
 		return Ok(companies);
 	}
+
+	[HttpGet("{id:guid}")]
+	public async Task<IActionResult> GetCompany(Guid id)
+	{
+		var company = await _service.CompanyService.GetCompany(id);
+
+		return Ok(company);
+	}
+
+	[HttpGet("withEmployees")]
+	public async Task<IActionResult> GetCompaniesWithEmployees()
+	{
+		var companies = await _service.CompanyService.GetCompaniesWithEmployees();
+		return Ok(companies);
+	}
 }

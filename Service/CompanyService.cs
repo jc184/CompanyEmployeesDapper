@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -18,6 +19,20 @@ namespace Service
         public async Task<IEnumerable<CompanyDto>> GetAllCompanies()
         {
             var companies = await _repository.Company.GetAllCompanies();
+            return companies;
+        }
+
+        public async Task<CompanyDto> GetCompany(Guid id)
+        {
+            var company = await _repository.Company.GetCompany(id);
+            if (company is null)
+                throw new CompanyNotFoundException(id);
+            return company;
+        }
+
+        public async Task<IEnumerable<CompanyWithEmployeesDto>> GetCompaniesWithEmployees()
+        {
+            var companies = await _repository.Company.GetCompaniesWithEmployees();
             return companies;
         }
 
