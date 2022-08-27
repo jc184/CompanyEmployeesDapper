@@ -30,5 +30,10 @@
          FROM Companies
          WHERE CompanyId IN @ids";
 
+        public const string DeleteCompanyQuery =
+         @"DELETE FROM Companies
+         WHERE CompanyId = @id";
+
+
     }
 }

@@ -123,6 +123,15 @@ namespace Repository
             }
         }
 
+        public async Task DeleteCompany(Guid id)
+        {
+            var query = CompanyQuery.DeleteCompanyQuery;
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, new { id });
+            }
+        }
+
 
     }
 }

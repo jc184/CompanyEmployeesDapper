@@ -64,5 +64,13 @@ namespace Service
             return (companies, ids);
         }
 
+        public async Task DeleteCompany(Guid companyId)
+        {
+            var company = await _repository.Company.GetCompany(companyId);
+            if (company is null)
+                throw new CompanyNotFoundException(companyId);
+            await _repository.Company.DeleteCompany(companyId);
+        }
+
     }
 }

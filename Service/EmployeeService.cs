@@ -50,6 +50,19 @@ namespace Service
             .CreateEmployeeForCompany(companyId, employeeDto);
             return employee;
         }
+
+        public async Task DeleteEmployeeForCompany(Guid companyId, Guid employeeId)
+        {
+            var company = await _repository
+            .Company.GetCompany(companyId);
+            if (company is null)
+                throw new CompanyNotFoundException(companyId);
+            var employeeForCompany = _repository
+            .Employee.GetEmployee(companyId, employeeId);
+            if (employeeForCompany is null)
+                throw new EmployeeNotFoundException(employeeId);
+            await _repository.Employee.DeleteEmployee(employeeId);
+        }
     }
 
 }

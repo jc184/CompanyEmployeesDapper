@@ -11,6 +11,6 @@ namespace Contracts
         Task<CompanyDto> CreateCompanyWithEmployees(CompanyForCreationDto company);
         Task<IEnumerable<CompanyDto>> GetByIds(IEnumerable<Guid> ids);
         Task<IEnumerable<CompanyDto>> CreateCompanyCollection(IEnumerable<CompanyForCreationDto> companies);
-
+        Task DeleteCompany(Guid id);
     }
 }

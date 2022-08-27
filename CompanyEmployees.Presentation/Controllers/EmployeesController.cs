@@ -37,5 +37,12 @@ namespace CompanyEmployees.Presentation.Controllers
             employeeToReturn);
         }
 
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteEmployeeForCompany(Guid companyId, Guid id)
+        {
+            await _service.EmployeeService.DeleteEmployeeForCompany(companyId, id);
+            return NoContent();
+        }
+
     }
 }

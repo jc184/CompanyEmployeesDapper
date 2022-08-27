@@ -46,5 +46,15 @@ namespace Repository
                 employeeDto.Age, employeeDto.Position);
             }
         }
+
+        public async Task DeleteEmployee(Guid employeeId)
+        {
+            var query = EmployeeQuery.DeleteEmployeeQuery;
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, new { employeeId });
+            }
+        }
+
     }
 }

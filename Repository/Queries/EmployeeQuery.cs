@@ -21,5 +21,9 @@
          @"INSERT INTO Employees (EmployeeId, Name, Age, Position, CompanyId)
          VALUES (default, @name, @age, @position, @id)";
 
+        public const string DeleteEmployeeQuery =
+         @"DELETE FROM Employees
+         WHERE EmployeeId = @employeeId";
+
     }
 }
