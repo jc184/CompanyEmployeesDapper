@@ -41,6 +41,15 @@ namespace Service
             return employee;
         }
 
+        public async Task<EmployeeDto> CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDto employeeDto)
+        {
+            var company = await _repository.Company.GetCompany(companyId);
+            if (company is null)
+                throw new CompanyNotFoundException(companyId);
+            var employee = await _repository.Employee
+            .CreateEmployeeForCompany(companyId, employeeDto);
+            return employee;
+        }
     }
 
 }

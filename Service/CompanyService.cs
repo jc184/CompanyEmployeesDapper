@@ -36,5 +36,33 @@ namespace Service
             return companies;
         }
 
+        public async Task<CompanyDto> CreateCompany(CompanyForCreationDto company)
+        {
+            if (company.Employees is not null && company.Employees.Any())
+                return await _repository.Company.CreateCompanyWithEmployees(company);
+            else
+                return await _repository.Company.CreateCompany(company);
+        }
+
+        public async Task<IEnumerable<CompanyDto>> GetByIds(IEnumerable<Guid> ids)
+        {
+            if (ids is null)
+                throw new IdParametersBadRequestException();
+            var companies = await _repository.Company.GetByIds(ids);
+            if (ids.Count() != companies.Count())
+                throw new CollectionByIdsBadRequestException();
+            return companies;
+        }
+
+        public async Task<(IEnumerable<CompanyDto> companies, string ids)>CreateCompanyCollection(IEnumerable<CompanyForCreationDto> companyCollection)
+        {
+            if (companyCollection is null)
+                throw new CompanyCollectionBadRequest();
+            var companies = await _repository.Company
+            .CreateCompanyCollection(companyCollection);
+            var ids = string.Join(",", companies.Select(c => c.CompanyId));
+            return (companies, ids);
+        }
+
     }
 }
