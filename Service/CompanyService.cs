@@ -82,5 +82,12 @@ namespace Service
                 await _repository.Company.UpsertCompany(companyId, companyForUpdate);
             }
         }
+
+        public async Task<CompanyDto> GetCompanyByEmployeeId(Guid employeeId)
+        {
+            var company = await _repository.Company.GetCompanyByEmployeeId(employeeId);
+            return company;
+        }
+
     }
 }

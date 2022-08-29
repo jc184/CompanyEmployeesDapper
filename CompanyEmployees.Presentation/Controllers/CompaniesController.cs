@@ -75,4 +75,10 @@ public class CompaniesController : ControllerBase
         return NoContent();
     }
 
+    [HttpGet("byemployeeid/{id:guid}")]
+    public async Task<IActionResult> GetCompanyByEmployeeId(Guid id)
+    {
+        var company = await _service.CompanyService.GetCompanyByEmployeeId(id);
+        return Ok(company);
+    }
 }

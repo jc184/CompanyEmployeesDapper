@@ -12,6 +12,7 @@ namespace Service.Contracts
         Task<(IEnumerable<CompanyDto> companies, string ids)>CreateCompanyCollection(IEnumerable<CompanyForCreationDto> companyCollection);
         Task DeleteCompany(Guid companyId);
         Task UpdateCompany(Guid companyId, CompanyForUpdateDto companyForUpdate);
+        Task<CompanyDto> GetCompanyByEmployeeId(Guid employeeId);
 
     }
 }
