@@ -66,4 +66,13 @@ public class CompaniesController : ControllerBase
         return NoContent();
     }
 
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] CompanyForUpdateDto company)
+    {
+        if (company is null)
+            return BadRequest("CompanyForUpdateDto object is null");
+        await _service.CompanyService.UpdateCompany(id, company);
+        return NoContent();
+    }
+
 }

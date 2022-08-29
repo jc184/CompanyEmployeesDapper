@@ -63,6 +63,17 @@ namespace Service
                 throw new EmployeeNotFoundException(employeeId);
             await _repository.Employee.DeleteEmployee(employeeId);
         }
+
+        public async Task UpdateEmployeeForCompany(Guid companyId, Guid id, EmployeeForUpdateDto employee)
+        {
+            var company = await _repository.Company.GetCompany(companyId);
+            if (company is null)
+                throw new CompanyNotFoundException(companyId);
+            var employeeDto = await _repository.Employee.GetEmployee(companyId, id);
+            if (employeeDto is null)
+                throw new EmployeeNotFoundException(id);
+            await _repository.Employee.UpdateEmployee(id, employee);
+        }
     }
 
 }

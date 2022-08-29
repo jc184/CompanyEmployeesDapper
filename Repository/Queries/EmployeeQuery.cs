@@ -25,5 +25,10 @@
          @"DELETE FROM Employees
          WHERE EmployeeId = @employeeId";
 
+        public const string UpdateEmployeeQuery =
+         @"UPDATE Employees
+         SET [Name] = @name, Age = @age, Position = @position
+         WHERE EmployeeId = @employeeId";
+
     }
 }

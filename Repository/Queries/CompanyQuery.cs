@@ -34,6 +34,10 @@
          @"DELETE FROM Companies
          WHERE CompanyId = @id";
 
+        public const string UpdateCompanyQuery =
+        @"UPDATE Companies
+         SET [Name] = @name, Address = @address, Country = @country
+         WHERE CompanyId = @id";
 
     }
 }

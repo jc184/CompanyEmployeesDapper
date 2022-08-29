@@ -44,5 +44,15 @@ namespace CompanyEmployees.Presentation.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateEmployeeForCompany(Guid companyId, Guid id, [FromBody] EmployeeForUpdateDto employee)
+        {
+            if (employee is null)
+                return BadRequest("EmployeeForUpdateDto object is null");
+            await _service.EmployeeService
+            .UpdateEmployeeForCompany(companyId, id, employee);
+            return NoContent();
+        }
+
     }
 }

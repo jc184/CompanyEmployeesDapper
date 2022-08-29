@@ -56,5 +56,15 @@ namespace Repository
             }
         }
 
+        public async Task UpdateEmployee(Guid employeeId, EmployeeForUpdateDto employee)
+        {
+            var query = EmployeeQuery.UpdateEmployeeQuery;
+            var param = new DynamicParameters(employee);
+            param.Add("employeeId", employeeId, DbType.Guid);
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, param);
+            }
+        }
     }
 }

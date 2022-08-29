@@ -2,6 +2,7 @@
 using Dapper;
 using Repository.Queries;
 using Shared.DataTransferObjects;
+using System.Data;
 
 namespace Repository
 {
@@ -129,6 +130,26 @@ namespace Repository
             using (var connection = _context.CreateConnection())
             {
                 await connection.ExecuteAsync(query, new { id });
+            }
+        }
+
+        public async Task UpsertCompany(Guid id, CompanyForUpdateDto company)
+        {
+            var query = CompanyQuery.UpdateCompanyQuery;
+            var param = new DynamicParameters(company);
+            param.Add("id", id, DbType.Guid);
+            using (var connection = _context.CreateConnection())
+            {
+                connection.Open();
+                using (var trans = connection.BeginTransaction())
+                {
+                    await connection.ExecuteAsync(query, param, transaction: trans);
+                    var queryEmp = EmployeeQuery.InsertEmployeeNoOutputQuery;
+                    var empList = company.Employees
+                    .Select(e => new { e.Name, e.Age, e.Position, id });
+                    await connection.ExecuteAsync(queryEmp, empList, transaction: trans);
+                    trans.Commit();
+                }
             }
         }
 
