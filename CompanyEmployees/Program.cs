@@ -24,7 +24,10 @@ builder.Services.ConfigureFluentMigrator(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 
 builder.Services.ConfigureServiceManager();
+builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity(builder.Configuration);
 
+builder.Services.ConfigureJWT(builder.Configuration);
 
 var app = builder.Build();
 
@@ -42,6 +45,8 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 });
 
 app.UseCors("CorsPolicy");
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
