@@ -2,8 +2,8 @@
 {
     public static class EmployeeQuery
     {
-        public const string SelectEmployeesQuery =
-         @"SELECT COUNT(e.EmployeeId)
+        public static string SelectEmployeesQuery(string orderBy) =>
+        @$"SELECT COUNT(e.EmployeeId)
          FROM Employees AS e
          WHERE e.CompanyId = @companyId AND (e.Age >= @minAge AND e.Age <= @maxAge)
          AND ((@searchTerm LIKE N'') OR (CHARINDEX(@searchTerm, LOWER(e.[Name])) > 0));
@@ -11,7 +11,7 @@
          FROM Employees AS e
          WHERE e.CompanyId = @companyId AND (e.Age >= @minAge AND e.Age <= @maxAge)
          AND ((@searchTerm LIKE N'') OR (CHARINDEX(@searchTerm, LOWER(e.[Name])) > 0))
-         ORDER BY e.[Name]
+         ORDER BY {orderBy}
          OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
 
         public const string SelectEmployeeByIdAndCompanyIdQuery =

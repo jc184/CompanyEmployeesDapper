@@ -16,6 +16,8 @@ namespace Repository
         {
             var skip = (employeeParameters.PageNumber - 1) * employeeParameters.PageSize;
             var searchTerm = !string.IsNullOrEmpty(employeeParameters.SearchTerm) ? employeeParameters.SearchTerm.Trim().ToLower() : string.Empty;
+            var orderBy = OrderQueryBuilder.CreateOrderQuery<EmployeeDto>(employeeParameters.OrderBy, 'e');
+            var query = EmployeeQuery.SelectEmployeesQuery(orderBy);
 
             var param = new DynamicParameters();
             param.Add("companyId", companyId, DbType.Guid);
@@ -24,7 +26,6 @@ namespace Repository
             param.Add("minAge", employeeParameters.MinAge, DbType.Int32);
             param.Add("maxAge", employeeParameters.MaxAge, DbType.Int32);
             param.Add("searchTerm", searchTerm, DbType.String);
-            var query = EmployeeQuery.SelectEmployeesQuery;
             using (var connection = _context.CreateConnection())
             using (var multi = await connection.QueryMultipleAsync(query, param))
             {
