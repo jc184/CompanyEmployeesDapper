@@ -5,12 +5,13 @@
         public const string SelectEmployeesQuery =
          @"SELECT COUNT(e.EmployeeId)
          FROM Employees AS e
-         WHERE e.CompanyId = @companyId;
+         WHERE e.CompanyId = @companyId AND (e.Age >= @minAge AND e.Age <= @maxAge);
          SELECT e.EmployeeId, e.[Name], e.[Age], e.Position
          FROM Employees AS e
-         WHERE e.CompanyId = @companyId
+         WHERE e.CompanyId = @companyId AND (e.Age >= @minAge AND e.Age <= @maxAge)
          ORDER BY e.[Name]
          OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
+
 
         public const string SelectEmployeeByIdAndCompanyIdQuery =
          @"SELECT EmployeeId, [Name], Age, Position

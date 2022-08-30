@@ -19,6 +19,9 @@ namespace Repository
             param.Add("companyId", companyId, DbType.Guid);
             param.Add("skip", skip, DbType.Int32);
             param.Add("take", employeeParameters.PageSize, DbType.Int32);
+            param.Add("minAge", employeeParameters.MinAge, DbType.Int32);
+            param.Add("maxAge", employeeParameters.MaxAge, DbType.Int32);
+
             var query = EmployeeQuery.SelectEmployeesQuery;
             using (var connection = _context.CreateConnection())
             using (var multi = await connection.QueryMultipleAsync(query, param))

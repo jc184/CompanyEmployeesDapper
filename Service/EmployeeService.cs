@@ -24,6 +24,9 @@ namespace Service
 
         public async Task<(IEnumerable<EmployeeDto> employees, MetaData metaData)>GetEmployees(Guid companyId, EmployeeParameters employeeParameters)
         {
+            if (!employeeParameters.ValidAgeRange)
+                throw new MaxAgeRangeBadRequestException();
+
             var company = await _repository.Company.GetCompany(companyId);
             if (company is null)
                 throw new CompanyNotFoundException(companyId);
