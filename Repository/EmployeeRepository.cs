@@ -2,6 +2,7 @@
 using Dapper;
 using Repository.Queries;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System.Data;
 
 namespace Repository
@@ -11,14 +12,21 @@ namespace Repository
         private readonly DapperContext _context;
         public EmployeeRepository(DapperContext context) => _context = context;
 
-        public async Task<IEnumerable<EmployeeDto>> GetEmployees(Guid companyId)
+        public async Task<PagedList<EmployeeDto>> GetEmployees(Guid companyId, EmployeeParameters employeeParameters)
         {
+            var skip = (employeeParameters.PageNumber - 1) * employeeParameters.PageSize;
+            var param = new DynamicParameters();
+            param.Add("companyId", companyId, DbType.Guid);
+            param.Add("skip", skip, DbType.Int32);
+            param.Add("take", employeeParameters.PageSize, DbType.Int32);
             var query = EmployeeQuery.SelectEmployeesQuery;
             using (var connection = _context.CreateConnection())
+            using (var multi = await connection.QueryMultipleAsync(query, param))
             {
-                var employees = await connection
-                .QueryAsync<EmployeeDto>(query, new { companyId });
-                return employees.ToList();
+                var count = await multi.ReadSingleAsync<int>();
+                var employees = (await multi.ReadAsync<EmployeeDto>()).ToList();
+                return new PagedList<EmployeeDto>(employees, count,
+                employeeParameters.PageNumber, employeeParameters.PageSize);
             }
         }
 

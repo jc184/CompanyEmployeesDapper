@@ -3,9 +3,14 @@
     public static class EmployeeQuery
     {
         public const string SelectEmployeesQuery =
-        @"SELECT EmployeeId, [Name], Age, Position
-         FROM Employees
-         WHERE CompanyId = @companyId";
+         @"SELECT COUNT(e.EmployeeId)
+         FROM Employees AS e
+         WHERE e.CompanyId = @companyId;
+         SELECT e.EmployeeId, e.[Name], e.[Age], e.Position
+         FROM Employees AS e
+         WHERE e.CompanyId = @companyId
+         ORDER BY e.[Name]
+         OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
 
         public const string SelectEmployeeByIdAndCompanyIdQuery =
          @"SELECT EmployeeId, [Name], Age, Position
