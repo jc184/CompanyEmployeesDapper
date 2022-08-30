@@ -5,13 +5,14 @@
         public const string SelectEmployeesQuery =
          @"SELECT COUNT(e.EmployeeId)
          FROM Employees AS e
-         WHERE e.CompanyId = @companyId AND (e.Age >= @minAge AND e.Age <= @maxAge);
+         WHERE e.CompanyId = @companyId AND (e.Age >= @minAge AND e.Age <= @maxAge)
+         AND ((@searchTerm LIKE N'') OR (CHARINDEX(@searchTerm, LOWER(e.[Name])) > 0));
          SELECT e.EmployeeId, e.[Name], e.[Age], e.Position
          FROM Employees AS e
          WHERE e.CompanyId = @companyId AND (e.Age >= @minAge AND e.Age <= @maxAge)
+         AND ((@searchTerm LIKE N'') OR (CHARINDEX(@searchTerm, LOWER(e.[Name])) > 0))
          ORDER BY e.[Name]
          OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
-
 
         public const string SelectEmployeeByIdAndCompanyIdQuery =
          @"SELECT EmployeeId, [Name], Age, Position

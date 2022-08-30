@@ -15,13 +15,15 @@ namespace Repository
         public async Task<PagedList<EmployeeDto>> GetEmployees(Guid companyId, EmployeeParameters employeeParameters)
         {
             var skip = (employeeParameters.PageNumber - 1) * employeeParameters.PageSize;
+            var searchTerm = !string.IsNullOrEmpty(employeeParameters.SearchTerm) ? employeeParameters.SearchTerm.Trim().ToLower() : string.Empty;
+
             var param = new DynamicParameters();
             param.Add("companyId", companyId, DbType.Guid);
             param.Add("skip", skip, DbType.Int32);
             param.Add("take", employeeParameters.PageSize, DbType.Int32);
             param.Add("minAge", employeeParameters.MinAge, DbType.Int32);
             param.Add("maxAge", employeeParameters.MaxAge, DbType.Int32);
-
+            param.Add("searchTerm", searchTerm, DbType.String);
             var query = EmployeeQuery.SelectEmployeesQuery;
             using (var connection = _context.CreateConnection())
             using (var multi = await connection.QueryMultipleAsync(query, param))

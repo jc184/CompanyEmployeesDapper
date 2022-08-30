@@ -5,5 +5,6 @@
         public int MinAge { get; set; } = 0;
         public int MaxAge { get; set; } = int.MaxValue;
         public bool ValidAgeRange => MaxAge > MinAge;
+        public string? SearchTerm { get; set; }
     }
 }
